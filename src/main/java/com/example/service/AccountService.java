@@ -4,6 +4,7 @@ import java.util.List;
 // import com.example.exception.ExceptionAndErrorController; // Note: @RestControllerAdvice - SB automatically picks up at runtime
 import com.example.exception.InvalidCredentialsException;
 import com.example.entity.Account;
+// import com.example.entity.Message;
 import com.example.repository.AccountRepository;
 
 import org.hibernate.exception.ConstraintViolationException;
@@ -14,12 +15,10 @@ import org.springframework.stereotype.Service;
 public class AccountService {
 
     private AccountRepository accountRepository;
-    // private MessageService messageService;
 
     @Autowired
     public AccountService(AccountRepository accountRepository){
         this.accountRepository = accountRepository;
-    //     this.messageService = messageService;
     }
 
     public List<Account> getAccountList(){ return (List<Account>) accountRepository.findAll(); }
@@ -42,4 +41,5 @@ public class AccountService {
         }
         return dbAccount;
     }
+
 }

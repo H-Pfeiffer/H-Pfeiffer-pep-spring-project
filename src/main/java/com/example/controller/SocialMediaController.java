@@ -1,5 +1,6 @@
 package com.example.controller;
 
+// import com.azul.crs.client.Response;
 import com.example.entity.Account;
 import com.example.entity.Message;
 import com.example.service.AccountService;
@@ -30,12 +31,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class SocialMediaController {
 
     private AccountService accountService;
-    // private MessageService messageService;
+    private MessageService messageService;
 
     @Autowired
-    public SocialMediaController(AccountService accountService){
+    public SocialMediaController(AccountService accountService, MessageService messageService){
         this.accountService = accountService;
-        // this.messageService = messageService;
+        this.messageService = messageService;
     }
 
     @PostMapping("register")
@@ -53,5 +54,11 @@ public class SocialMediaController {
     @GetMapping("accounts")
     public List<Account> getAccountsHandler(){
         return accountService.getAccountList();
+    }
+
+    @PostMapping("messages")
+    public ResponseEntity<Message> postMessageHandler(@RequestBody Message message){
+        Message newMessage = messageService.createMessage(message);
+        return ResponseEntity.ok(newMessage);
     }
 }
