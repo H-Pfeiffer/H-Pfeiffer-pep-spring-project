@@ -7,9 +7,11 @@ import com.example.service.MessageService;
 
 import javax.naming.AuthenticationException;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,21 +24,21 @@ import org.springframework.web.bind.annotation.RestController;
  * refer to prior mini-project labs and lecture materials for guidance on how a controller may be built.
  */
 @RestController
-@RequestMapping("/socialmedia")
+@RequestMapping("/")
 public class SocialMediaController {
 
     private AccountService accountService;
-    private MessageService messageService;
+    // private MessageService messageService;
 
     @Autowired
-    public SocialMediaController(AccountService accountService, MessageService messageService){
+    public SocialMediaController(AccountService accountService){
         this.accountService = accountService;
-        this.messageService = messageService;
+        // this.messageService = messageService;
     }
 
     @PostMapping("register")
-    public ResponseEntity<Account> registerHandler(@RequestBody Account account) throws AuthenticationException{
-        Account newAccount = accountService.register(account.getUsername(), account.getPassword());
+    public ResponseEntity<Account> registerHandler(@RequestBody Account account) throws AuthenticationException, ConstraintViolationException, MethodArgumentNotValidException{
+        Account newAccount = accountService.register(account);
         return ResponseEntity.status(HttpStatus.CREATED).body(newAccount);
     }
 }
