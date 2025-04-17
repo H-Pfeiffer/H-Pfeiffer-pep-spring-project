@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.List;
 // import com.example.exception.ExceptionAndErrorController; // Note: @RestControllerAdvice - SB automatically picks up at runtime
 import com.example.exception.InvalidCredentialsException;
 import com.example.entity.Account;
@@ -21,6 +22,8 @@ public class AccountService {
     //     this.messageService = messageService;
     }
 
+    public List<Account> getAccountList(){ return (List<Account>) accountRepository.findAll(); }
+
     public Account register(Account newAccount) throws ConstraintViolationException, IllegalArgumentException {
         if(accountRepository.findByUsername(newAccount.getUsername()) != null){
             throw new ConstraintViolationException("Username already exists.", null, null);
@@ -32,7 +35,7 @@ public class AccountService {
     }
 
     public Account login(Account account) throws InvalidCredentialsException {
-        Account dbAccount = accountRepository.findByUsername(account.getUsername()
+        Account dbAccount = accountRepository.findByUsername(account.getUsername())
             .orElseThrow(() -> new InvalidCredentialsException("Invalid credentials"));
         if(account.getPassword() == null || !dbAccount.getPassword().equals(account.getPassword())){
             throw new InvalidCredentialsException("Invalid Credentials");

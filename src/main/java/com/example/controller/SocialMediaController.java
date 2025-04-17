@@ -6,12 +6,14 @@ import com.example.service.AccountService;
 import com.example.service.MessageService;
 
 import javax.naming.AuthenticationException;
+import java.util.List;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,5 +48,10 @@ public class SocialMediaController {
     public ResponseEntity<Account> loginHandler(@RequestBody Account account){
         Account loggedInAccount = accountService.login(account);
         return ResponseEntity.ok(loggedInAccount);
+    }
+
+    @GetMapping("accounts")
+    public List<Account> getAccountsHandler(){
+        return accountService.getAccountList();
     }
 }
