@@ -39,6 +39,8 @@
 <!--      <artifactId>spring-context</artifactId>-->
 <!--      <version>5.3.23</version>-->
 <!--    </dependency>-->
+
+<!-- ****** Note spring-boot-starter-data-jpa dependency includes hiberante by default ******  -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
