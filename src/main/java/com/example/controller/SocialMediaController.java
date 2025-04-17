@@ -37,8 +37,14 @@ public class SocialMediaController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<Account> registerHandler(@RequestBody Account account) throws AuthenticationException, ConstraintViolationException, MethodArgumentNotValidException{
+    public ResponseEntity<Account> registerHandler(@RequestBody Account account) throws ConstraintViolationException, IllegalArgumentException{
         Account newAccount = accountService.register(account);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newAccount);
+        return ResponseEntity.ok(newAccount);
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<Account> loginHandler(@RequestBody Account account){
+        Account loggedInAccount = accountService.login(account);
+        return ResponseEntity.ok(loggedInAccount);
     }
 }

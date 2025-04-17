@@ -1,10 +1,9 @@
 package com.example.service;
 
-import com.example.exception.ExceptionAndErrorController;
+// import com.example.exception.ExceptionAndErrorController; // Note: @RestControllerAdvice - SB automatically picks up at runtime
+import com.example.exception.InvalidCredentialsException;
 import com.example.entity.Account;
 import com.example.repository.AccountRepository;
-
-import javax.naming.AuthenticationException;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +29,14 @@ public class AccountService {
             throw new IllegalArgumentException("Username must not be blank.\nPassword must be at least 4 characters long.");
         }
         return accountRepository.save(newAccount);
+    }
+
+    public Account login(Account account) throws InvalidCredentialsException {
+        Account dbAccount = accountRepository.findByUsername(account.getUsername()
+            .orElseThrow(() -> new InvalidCredentialsException("Invalid credentials"));
+        if(account.getPassword() == null || !dbAccount.getPassword().equals(account.getPassword())){
+            throw new InvalidCredentialsException("Invalid Credentials");
+        }
+        return dbAccount;
     }
 }

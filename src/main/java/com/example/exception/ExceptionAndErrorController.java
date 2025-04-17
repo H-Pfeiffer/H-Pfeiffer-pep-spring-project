@@ -17,4 +17,8 @@ public class ExceptionAndErrorController {
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST) // BAD_REQUEST returns a 400 client_error response
     public @ResponseBody String invalidUserInputException(IllegalArgumentException ex) { return ex.getMessage(); }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED) // UNAUTHORIZED returns a 401 status code response
+    public @ResponseBody String invalidCredentialsException(InvalidCredentialsException ex) { return ex.getMessage(); }
 }
