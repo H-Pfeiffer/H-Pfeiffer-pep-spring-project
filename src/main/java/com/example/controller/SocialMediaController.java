@@ -7,6 +7,8 @@ import com.example.service.AccountService;
 import com.example.service.MessageService;
 
 import javax.naming.AuthenticationException;
+import javax.swing.text.html.parser.Entity;
+
 import java.util.List;
 
 import org.hibernate.exception.ConstraintViolationException;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,5 +69,12 @@ public class SocialMediaController {
     public ResponseEntity<List<Message>> getMessageListHandler(){
         List<Message> messages = messageService.getMessageList();
         return ResponseEntity.ok(messages);
+    }
+
+    // make sure PathVariable in endpoint and passed into handler have same label, ie. messageId
+    @GetMapping("messages/{messageId}")
+    public ResponseEntity<Message> getMessageByMessageIdHandler(@PathVariable int messageId){
+        Message message = messageService.getMessageByMessageId(messageId);
+        return ResponseEntity.ok(message);
     }
 }

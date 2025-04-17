@@ -36,4 +36,9 @@ public class MessageService {
     public List<Message> getMessageList(){
         return (List<Message>) messageRepository.findAll();
     }
+
+    public Message getMessageByMessageId(int messageId){
+        // Note: use .orElse() so JPARepository will unwrap the Optional<Message> as is 'safe' to do so
+        return messageRepository.findById(messageId).orElse(null);
+    }
 }
