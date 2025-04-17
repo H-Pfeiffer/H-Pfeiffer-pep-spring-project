@@ -1,8 +1,11 @@
 package com.example.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.example.entity.Message;
 import com.example.exception.InvalidCredentialsException;
+
+import org.jboss.logging.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,5 +67,10 @@ public class MessageService {
         message.setMessageText(messageText);
         messageRepository.save(message); // alternatively could create custom query in messageRespository to return number of rows affected
         return 1;
+    }
+
+    public List<Message> getAllMessagesPostedByUser(int accountId){
+        List<Message> messages = messageRepository.findByPostedBy(accountId);
+        return messages;
     }
 }

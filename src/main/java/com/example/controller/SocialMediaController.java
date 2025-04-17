@@ -1,6 +1,5 @@
 package com.example.controller;
 
-// import com.azul.crs.client.Response;
 import com.example.entity.Account;
 import com.example.entity.Message;
 import com.example.service.AccountService;
@@ -91,5 +90,11 @@ public class SocialMediaController {
     public ResponseEntity<Integer> updateMessageByMessageIdHandler(@PathVariable int messageId, @RequestBody Message message){
         messageService.updateMessageByMessageId(messageId, message.getMessageText()); // note: request is a Message with only messageText, get messageText from Obj
         return ResponseEntity.ok(1);
+    }
+
+    @GetMapping("accounts/{accountId}/messages")
+    public ResponseEntity<List<Message>> getAllMessagesPostedByUserHandler(@PathVariable int accountId){
+        List<Message> messages = messageService.getAllMessagesPostedByUser(accountId);
+        return ResponseEntity.ok(messages);
     }
 }
