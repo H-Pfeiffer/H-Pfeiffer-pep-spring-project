@@ -41,4 +41,28 @@ public class MessageService {
         // Note: use .orElse() so JPARepository will unwrap the Optional<Message> as is 'safe' to do so
         return messageRepository.findById(messageId).orElse(null);
     }
+
+    public boolean deleteMessageByMessageId(int messageId){
+        boolean result = false;
+        if(messageRepository.findById(messageId).isPresent()){
+            messageRepository.deleteById(messageId);
+            result = true;
+        }
+        return result;
+    }
+
+    public int updateMessageByMessageId(int messageId, String messageText){
+        // find id - if exists - client error
+        Message message = messageRepository.findById(messageId)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid messageId."));
+
+        // check that text is not blank and not over 255 characters - client error
+        if(messageText.isEmpty() || messageText.length() > 255){
+            throw new IllegalArgumentException("Message must not be empty.\nMessage must not have more than 255 characters.");
+        }
+        // update message text 
+        message.setMessageText(messageText);
+        messageRepository.save(message); // alternatively could create custom query in messageRespository to return number of rows affected
+        return 1;
+    }
 }
