@@ -25,7 +25,7 @@ public class AccountService {
     public List<Account> getAccountList(){ return (List<Account>) accountRepository.findAll(); }
 
     public Account register(Account newAccount) throws ConstraintViolationException, IllegalArgumentException {
-        if(accountRepository.findByUsername(newAccount.getUsername()) != null){
+        if(accountRepository.findByUsername(newAccount.getUsername()).isPresent()){
             throw new ConstraintViolationException("Username already exists.", null, null);
         }
         if(newAccount.getUsername().isEmpty() || newAccount.getPassword().length() < 4){
