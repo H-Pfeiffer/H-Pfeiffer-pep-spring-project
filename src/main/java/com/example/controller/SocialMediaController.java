@@ -61,4 +61,10 @@ public class SocialMediaController {
         Message newMessage = messageService.createMessage(message);
         return ResponseEntity.ok(newMessage);
     }
+
+    @GetMapping("messages")
+    public ResponseEntity<List<Message>> getMessageListHandler(){
+        List<Message> messages = messageService.getMessageList();
+        return ResponseEntity.ok(messages);
+    }
 }

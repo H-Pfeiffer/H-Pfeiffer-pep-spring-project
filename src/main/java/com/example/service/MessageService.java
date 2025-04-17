@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.List;
 import com.example.entity.Message;
 import com.example.exception.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,9 @@ public class MessageService {
             throw new IllegalArgumentException("User does not exist.");
         }
        return messageRepository.save(message);
+    }
+
+    public List<Message> getMessageList(){
+        return (List<Message>) messageRepository.findAll();
     }
 }
