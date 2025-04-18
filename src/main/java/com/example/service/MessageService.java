@@ -70,7 +70,7 @@ public class MessageService {
     }
 
     public List<Message> getAllMessagesPostedByUser(int accountId){
-        List<Message> messages = messageRepository.findByPostedBy(accountId);
+        List<Message> messages = messageRepository.findMessagesByPostedBy(accountId);
         return messages;
     }
 }
