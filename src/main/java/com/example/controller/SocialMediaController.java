@@ -5,16 +5,12 @@ import com.example.entity.Message;
 import com.example.service.AccountService;
 import com.example.service.MessageService;
 
-import javax.naming.AuthenticationException;
-import javax.swing.text.html.parser.Entity;
-
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -72,23 +68,24 @@ public class SocialMediaController {
         return ResponseEntity.ok(messages);
     }
 
-    // make sure PathVariable in endpoint and passed into handler have same label, i.e. messageId
+    // PathVariable in endpoint and parameter must match, i.e. messageId
     @GetMapping("messages/{messageId}")
     public ResponseEntity<Message> getMessageByMessageIdHandler(@PathVariable int messageId){
-        Message message = messageService.getMessageByMessageId(messageId);
-        return ResponseEntity.ok(message);
+        Optional<Message> message = messageService.getMessageByMessageId(messageId);
+        Message result = message.orElse(null);
+        return ResponseEntity.ok(result);
     }
 
-    // note: leverage 
+    // Leveraging Object as return to allow flexibility for different values 
     @DeleteMapping("messages/{messageId}")
     public ResponseEntity<Object> deleteMessageByMessageIdHandler(@PathVariable int messageId){
         if(messageService.deleteMessageByMessageId(messageId)) return ResponseEntity.ok(1);
-        else return ResponseEntity.ok(null);
+        return ResponseEntity.ok(null);
     }
 
     @PatchMapping("messages/{messageId}")
-    public ResponseEntity<Integer> updateMessageByMessageIdHandler(@PathVariable int messageId, @RequestBody Message message){
-        messageService.updateMessageByMessageId(messageId, message.getMessageText()); // note: request is a Message with only messageText, get messageText from Obj
+    public ResponseEntity<Integer> updateMessageByMessageIdHandler(@PathVariable int messageId, @RequestBody Message message){    // note: @RequestBody Message is only guaranteed to have messageText
+        messageService.updateMessageByMessageId(messageId, message.getMessageText()); 
         return ResponseEntity.ok(1);
     }
 

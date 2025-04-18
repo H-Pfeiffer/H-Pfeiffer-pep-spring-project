@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer>  {
 
-    Optional<Account> findByUsername(String username); // Note: must be Optional<Account> if using .orElseThrow() - method of Optional class
+    Optional<Account> findByUsername(String username); // Note: returning Optional<Account> allows for use of builtin .orElseThrow() method
 }
